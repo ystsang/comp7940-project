@@ -1,23 +1,28 @@
-name: Build and Push Docker Image
-
+name: Push Docker Image
 on:
   push:
     branches:
-      - main
-
+      - main  # change to main if needed
 jobs:
-  build-and-push:
+  deploy:
+    name: Build and Push Image to Dockhub
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    concurrency: deploy-group   # optional: ensure only one action runs at a time
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ystsang/bot_image
-          dockerfile_path: Dockerfile
-          context: .
-          tags: latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      # Authenticate with Docker Hub
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      # Build Docker image
+      - name: Build Docker image
+        run: docker tag bot_image ystsang/bot_image
+
+      # Push Docker image to Docker Hub
+      - name: Push Docker image to Docker Hub
+        run: docker push ystsang/bot_image
+
+
+
