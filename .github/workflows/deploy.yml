@@ -3,25 +3,22 @@ on:
   push:
     branches:
       - main  # change to main if needed
+env: 
+  ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+  BASICURL: ${{ secrets.BASICURL }}
+  MODELNAME: ${{ secrets.MODELNAME }}
+  APIVERSION: ${{ secrets.APIVERSION }}
+  GPT_ACCESS_TOKEN: ${{ secrets.GPT_ACCESS_TOKEN }}
+
 jobs:
   deploy:
-    name: Azure Deployment
+    name: Deployment
     runs-on: ubuntu-latest
     concurrency: deploy-group   # optional: ensure only one action runs at a time
-
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Python Package
-        run: pip install --upgrade python-telegram-bot
-
       - name: Start Bot
-        env: 
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BASICURL: ${{ secrets.BASICURL }}
-          MODELNAME: ${{ secrets.MODELNAME }}
-          APIVERSION: ${{ secrets.APIVERSION }}
-          GPT_ACCESS_TOKEN: ${{ secrets.GPT_ACCESS_TOKEN }}
         run: python chatbot.py
 

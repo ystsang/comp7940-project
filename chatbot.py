@@ -24,9 +24,9 @@ def main():
     #config = configparser.ConfigParser()
     #config.read('config.ini')
     #updater = Updater(token=(config['TELEGRAM']['ACCESS_TOKEN']), use_context=True)
-    print("ACCESS_TOKEN:", os.environ.get('ACCESS_TOKEN'))
+    print("ACCESS_TOKEN:", os.environ['ACCESS_TOKEN'])
 
-    updater = Updater(token=(os.environ.get('ACCESS_TOKEN')), use_context=True)
+    updater = Updater(token=(os.environ['ACCESS_TOKEN']), use_context=True)
     dispatcher = updater.dispatcher
     #global redis1
     #redis1 = redis.Redis(host=(config['REDIS']['HOST']), password=(config['REDIS']['PASSWORD']), port=(config['REDIS']['REDISPORT']))
