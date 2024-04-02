@@ -2,6 +2,7 @@
 ## and version 1.26.18 of urllib3
 ## chatbot.pyfrom telegram import Update
 import os
+import telegram
 from telegram import Update
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, CallbackContext)
 # The messageHandler is used for all message update
