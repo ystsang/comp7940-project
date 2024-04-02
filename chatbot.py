@@ -13,7 +13,7 @@ import requests
 from pymongo import MongoClient
 
 # Initialize MongoDB client
-client = MongoClient("mongodb+srv://"+(os.environ.get('MONGODB_USERNAME'))+":"+(os.environ.get('MONGODB_PASSWORD'))+"@cluster0.ia5uqdw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+client = MongoClient("mongodb+srv://ystsang:"+(os.environ.get('MONGODB_PASSWORD'))+"@cluster0.ia5uqdw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["telegram_chatbot"]  # Specify your database name
 collection = db["message_counts"]  # Specify your collection name
 
