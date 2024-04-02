@@ -15,4 +15,6 @@ jobs:
       APIVERSION: ${{ secrets.APIVERSION }}
       GPT_ACCESS_TOKEN: ${{ secrets.PT_ACCESS_TOKEN }}
 
+    steps:
+      - uses: actions/checkout@v3
 
