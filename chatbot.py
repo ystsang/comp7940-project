@@ -2,8 +2,8 @@
 ## and version 1.26.18 of urllib3
 ## chatbot.pyfrom telegram import Update
 import os
-import telegram
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import Update
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, CallbackContext)
 # The messageHandler is used for all message update
 ##import configparser
 import logging
@@ -13,7 +13,7 @@ import requests
 from pymongo import MongoClient
 
 # Initialize MongoDB client
-client = MongoClient("mongodb+srv://ystsang:"+(os.environ.get('MONGODB_PASSWORD'))+"@cluster0.ia5uqdw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+client = MongoClient("mongodb+srv://ystsang:daisyyst@cluster0.ia5uqdw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["telegram_chatbot"]  # Specify your database name
 collection = db["message_counts"]  # Specify your collection name
 
