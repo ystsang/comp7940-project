@@ -13,7 +13,7 @@ jobs:
       BASICURL: ${{ secrets.BASICURL }}
       MODELNAME: ${{ secrets.MODELNAME }}
       APIVERSION: ${{ secrets.APIVERSION }}
-      GPT_ACCESS_TOKEN: ${{ secrets.PT_ACCESS_TOKEN }}
+      GPT_ACCESS_TOKEN: ${{ secrets.GPT_ACCESS_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
