@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      -name: start bot
+      - name: start bot
         env: 
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BASICURL: ${{ secrets.BASICURL }}
