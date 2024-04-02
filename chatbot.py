@@ -6,7 +6,7 @@ import telegram
 from telegram import Update
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, CallbackContext)
 # The messageHandler is used for all message update
-#import configparser
+import configparser
 import logging
 #import redis
 #from ChatGPT_HKBU import HKBU_ChatGPT
@@ -21,10 +21,10 @@ collection = db["message_counts"]  # Specify your collection name
 #global redis1
 def main():
     # Load your token and create an Updater for your Bot
-    #config = configparser.ConfigParser()
-    #config.read('config.ini')
-    #updater = Updater(token=(config['TELEGRAM']['ACCESS_TOKEN']), use_context=True)
-    updater = Updater(token=(os.environ['ACCESS_TOKEN']), use_context=True)
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    updater = Updater(token=(config['TELEGRAM']['ACCESS_TOKEN']), use_context=True)
+    #updater = Updater(token=(os.environ['ACCESS_TOKEN']), use_context=True)
     dispatcher = updater.dispatcher
     #global redis1
     #redis1 = redis.Redis(host=(config['REDIS']['HOST']), password=(config['REDIS']['PASSWORD']), port=(config['REDIS']['REDISPORT']))
@@ -96,21 +96,21 @@ def add(update: Update, context: CallbackContext) -> None:
 class HKBU_GPT():
     #def __init__(self,config_='./config.ini'):
     def __init__(self,config_='./config.ini'):
-        #if type(config_) == str:
-        #    self.config = configparser.ConfigParser()
-        #    self.config.read(config_)
-        #elif type(config_) == configparser.ConfigParser:
-        #    self.config = config_
-        pass
+        if type(config_) == str:
+            self.config = configparser.ConfigParser()
+            self.config.read(config_)
+        elif type(config_) == configparser.ConfigParser:
+            self.config = config_
+        #pass
 
     def submit(self,message):   
         config = configparser.ConfigParser()
         config.read('config.ini')
         conversation = [{"role": "user", "content": message}]
-        #url = (config['CHATGPT']['BASICURL']) + "/deployments/" + (config['CHATGPT']['MODELNAME']) + "/chat/completions/?api-version=" + (config['CHATGPT']['APIVERSION'])
-        url = (os.environ['BASICURL']) + "/deployments/" + (os.environ['MODELNAME']) + "/chat/completions/?api-version=" + (os.environ['APIVERSION'])
-        #headers = { 'Content-Type': 'application/json', 'api-key': (config['CHATGPT']['ACCESS_TOKEN']) }
-        headers = { 'Content-Type': 'application/json', 'api-key': (os.environ['GPT_ACCESS_TOKEN']) }
+        url = (self.config['CHATGPT']['BASICURL']) + "/deployments/" + (self.config['CHATGPT']['MODELNAME']) + "/chat/completions/?api-version=" + (self.config['CHATGPT']['APIVERSION'])
+        #url = (os.environ['BASICURL']) + "/deployments/" + (os.environ['MODELNAME']) + "/chat/completions/?api-version=" + (os.environ['APIVERSION'])
+        headers = { 'Content-Type': 'application/json', 'api-key': (self.config['CHATGPT']['ACCESS_TOKEN']) }
+        #headers = { 'Content-Type': 'application/json', 'api-key': (os.environ['GPT_ACCESS_TOKEN']) }
         payload = { 'messages': conversation }
         response = requests.post(url, json=payload, headers=headers)
         if response.status_code == 200:
