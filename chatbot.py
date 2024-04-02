@@ -1,16 +1,10 @@
-## this file is based on version 13.7 of python telegram chatbot
-## and version 1.26.18 of urllib3
-## chatbot.pyfrom telegram import Update
-import os
-import telegram
 from telegram import Update
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, CallbackContext)
-# The messageHandler is used for all message update
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, 
+                          CallbackContext)
 import configparser
 import logging
 #import redis
-#from ChatGPT_HKBU import HKBU_ChatGPT
-import requests
+from ChatGPT_HKBU import HKBU_ChatGPT
 from pymongo import MongoClient
 
 # Initialize MongoDB client
@@ -24,7 +18,6 @@ def main():
     config = configparser.ConfigParser()
     config.read('config.ini')
     updater = Updater(token=(config['TELEGRAM']['ACCESS_TOKEN']), use_context=True)
-    #updater = Updater(token=(os.environ['ACCESS_TOKEN']), use_context=True)
     dispatcher = updater.dispatcher
     #global redis1
     #redis1 = redis.Redis(host=(config['REDIS']['HOST']), password=(config['REDIS']['PASSWORD']), port=(config['REDIS']['REDISPORT']))
@@ -38,8 +31,7 @@ def main():
 
     # dispatcher for chatgpt
     global chatgpt
-    #chatgpt = HKBU_ChatGPT(config)
-    chatgpt = HKBU_GPT()
+    chatgpt = HKBU_ChatGPT(config)
     chatgpt_handler = MessageHandler(Filters.text & (~Filters.command), equiped_chatgpt)
     dispatcher.add_handler(chatgpt_handler)
 
@@ -92,32 +84,6 @@ def add(update: Update, context: CallbackContext) -> None:
         update.message.reply_text(f'You have said {msg} {count} times.')
     except (IndexError, ValueError):
         update.message.reply_text('Usage: /add <keyword>')
-
-class HKBU_GPT():
-    #def __init__(self,config_='./config.ini'):
-    def __init__(self,config_='./config.ini'):
-        if type(config_) == str:
-            self.config = configparser.ConfigParser()
-            self.config.read(config_)
-        elif type(config_) == configparser.ConfigParser:
-            self.config = config_
-        #pass
-
-    def submit(self,message):   
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        conversation = [{"role": "user", "content": message}]
-        url = (self.config['CHATGPT']['BASICURL']) + "/deployments/" + (self.config['CHATGPT']['MODELNAME']) + "/chat/completions/?api-version=" + (self.config['CHATGPT']['APIVERSION'])
-        #url = (os.environ['BASICURL']) + "/deployments/" + (os.environ['MODELNAME']) + "/chat/completions/?api-version=" + (os.environ['APIVERSION'])
-        headers = { 'Content-Type': 'application/json', 'api-key': (self.config['CHATGPT']['ACCESS_TOKEN']) }
-        #headers = { 'Content-Type': 'application/json', 'api-key': (os.environ['GPT_ACCESS_TOKEN']) }
-        payload = { 'messages': conversation }
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code == 200:
-            data = response.json()
-            return data['choices'][0]['message']['content']
-        else:
-            return 'Error:', response
 
 if __name__ == '__main__':
     main()
