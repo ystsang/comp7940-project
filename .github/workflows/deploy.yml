@@ -20,4 +20,5 @@ jobs:
           MODELNAME: ${{ secrets.MODELNAME }}
           APIVERSION: ${{ secrets.APIVERSION }}
           GPT_ACCESS_TOKEN: ${{ secrets.GPT_ACCESS_TOKEN }}
+        run: python chatbot.py
 
