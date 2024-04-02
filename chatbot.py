@@ -23,8 +23,7 @@ def main():
     # Load your token and create an Updater for your Bot
     #config = configparser.ConfigParser()
     #config.read('config.ini')
-    #updater = Updater(token=(config['TELEGRAM']['ACCESS_TOKEN']), use_context=True)
-    print("ACCESS_TOKEN:", os.environ['ACCESS_TOKEN'])
+    #updater = Updater(token=(config['TELEGRAM']['ACCESS_TOKEN']), use_context=True))
 
     updater = Updater(token=(os.environ['ACCESS_TOKEN']), use_context=True)
     dispatcher = updater.dispatcher
@@ -108,9 +107,9 @@ class HKBU_GPT():
     def submit(self,message):   
         conversation = [{"role": "user", "content": message}]
         #url = (self.config['CHATGPT']['BASICURL']) + "/deployments/" + (self.config['CHATGPT']['MODELNAME']) + "/chat/completions/?api-version=" + (self.config['CHATGPT']['APIVERSION'])
-        url = (os.environ.get('BASICURL')) + "/deployments/" + (os.environ.get('MODELNAME')) + "/chat/completions/?api-version=" + (os.environ.get('APIVERSION'))
+        url = (os.environ['BASICURL']) + "/deployments/" + (os.environ['MODELNAME']) + "/chat/completions/?api-version=" + (os.environ['APIVERSION'])
         #headers = { 'Content-Type': 'application/json', 'api-key': (self.config['CHATGPT']['ACCESS_TOKEN']) }
-        headers = { 'Content-Type': 'application/json', 'api-key': (os.environ.get('GPT_ACCESS_TOKEN')) }
+        headers = { 'Content-Type': 'application/json', 'api-key': (os.environ['GPT_ACCESS_TOKEN']) }
         payload = { 'messages': conversation }
         response = requests.post(url, json=payload, headers=headers)
         if response.status_code == 200:
